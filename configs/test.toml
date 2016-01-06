@@ -1,0 +1,3 @@
+debug = true
+testing = true
+database_path = './database/test_kaonashi.db'

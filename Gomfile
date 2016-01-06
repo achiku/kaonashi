@@ -1,0 +1,6 @@
+gom "github.com/pilu/fresh"
+gom "github.com/go-zoo/bone"
+gom "github.com/rs/xhandler"
+gom "github.com/naoina/toml"
+gom "golang.org/x/net/context"
+gom "github.com/mattn/go-sqlite3"
