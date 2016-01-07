@@ -2,7 +2,7 @@ package main
 
 import (
 	"encoding/json"
-	"fmt"
+	"log"
 	"net/http"
 
 	"github.com/go-zoo/bone"
@@ -12,9 +12,27 @@ import (
 
 func getNote(ctx context.Context, w http.ResponseWriter, r *http.Request) {
 	noteID := bone.GetValue(r, "id")
-	// db := ctx.Value("db").(*DB)
+	db := ctx.Value(ctxKeyDB).(*DB)
+
+	note := Note{}
+	err := db.Select(&note, `
+	SELECT
+	  id
+	  ,title
+	  ,body
+	  ,updated
+	  ,created
+    FROM note
+	WHERE id = $1
+	`, noteID)
+	if err != nil {
+		log.Printf("%s", err)
+		http.Error(w, http.StatusText(http.StatusInternalServerError), http.StatusInternalServerError)
+		return
+	}
+	res := NoteResponse{Data: note}
 	w.Header().Set("Content-type", "application/json")
-	json.NewEncoder(w).Encode(fmt.Sprintf("getNote %s", noteID))
+	json.NewEncoder(w).Encode(res)
 }
 
 func getNoteTitles(ctx context.Context, w http.ResponseWriter, r *http.Request) {
