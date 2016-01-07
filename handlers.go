@@ -91,9 +91,21 @@ func createNoteHandler(ctx context.Context, w http.ResponseWriter, r *http.Reque
 }
 
 func deleteNoteHandler(ctx context.Context, w http.ResponseWriter, r *http.Request) {
-	// noteId := bone.GetValue(r, "id")
+	noteID := bone.GetValue(r, "id")
+	db := ctx.Value(ctxKeyDB).(*DB)
+	err := deleteNote(db, noteID)
+	if err != nil {
+		log.Printf("deleteNoteHandler: %s", err)
+		w.Header().Set("Content-type", "application/json")
+		w.WriteHeader(http.StatusInternalServerError)
+		res := MessageResponse{Data: StatusMessage{Message: "error"}}
+		json.NewEncoder(w).Encode(res)
+		return
+	}
 	w.Header().Set("Content-type", "application/json")
-	json.NewEncoder(w).Encode("deleteNote")
+	res := MessageResponse{Data: StatusMessage{Message: "deleted"}}
+	json.NewEncoder(w).Encode(res)
+	return
 }
 
 func updateNoteHandler(ctx context.Context, w http.ResponseWriter, r *http.Request) {

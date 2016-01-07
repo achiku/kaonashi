@@ -23,7 +23,7 @@ func getNote(db *DB, noteID string) (Note, error) {
 				"getNote: no rows round for id: %s", noteID)
 			return note, err
 		}
-		log.Printf("getNote error: %s", err)
+		log.Printf("getNote: %s", err)
 		return note, err
 	}
 	return note, nil
@@ -35,7 +35,7 @@ func createNote(db *DB, note Note) error {
 	VALUES (?, ?, ?, ?)
 	`, note.Title, note.Body, note.Created, note.Updated)
 	if err != nil {
-		log.Printf("createNote error: %s", err)
+		log.Printf("createNote: %s", err)
 		return err
 	}
 	return nil
@@ -53,8 +53,19 @@ func getNoteTitles(db *DB) ([]NoteTitle, error) {
 	ORDER BY updated DESC
 	`)
 	if err != nil {
-		log.Printf("getNoteTitles error: %s", err)
+		log.Printf("getNoteTitles: %s", err)
 		return noteTitles, err
 	}
 	return noteTitles, nil
+}
+
+func deleteNote(db *DB, noteID string) error {
+	_, err := db.Exec(`
+	DELETE FROM note WHERE id = ?
+	`, noteID)
+	if err != nil {
+		log.Printf("deleteNote: %s", err)
+		return err
+	}
+	return nil
 }
