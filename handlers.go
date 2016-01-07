@@ -5,6 +5,7 @@ import (
 	"encoding/json"
 	"log"
 	"net/http"
+	"strconv"
 	"time"
 
 	"github.com/go-zoo/bone"
@@ -109,12 +110,32 @@ func deleteNoteHandler(ctx context.Context, w http.ResponseWriter, r *http.Reque
 }
 
 func updateNoteHandler(ctx context.Context, w http.ResponseWriter, r *http.Request) {
-	// noteId := bone.GetValue(r, "id")
-	// db := ctx.Value("db").(*DB)
-	// if note.Id == 0 {
-	// 	http.Error(w, http.StatusText(http.StatusNotFound), http.StatusNotFound)
-	// 	return
-	// }
+	var noteRequest NoteRequest
+	decoder := json.NewDecoder(r.Body)
+	err := decoder.Decode(&noteRequest)
+	if err != nil {
+		log.Printf("updateNoteHandler: %s", err)
+		w.Header().Set("Content-type", "application/json")
+		w.WriteHeader(http.StatusInternalServerError)
+		res := MessageResponse{Data: StatusMessage{Message: "error"}}
+		json.NewEncoder(w).Encode(res)
+		return
+	}
+
+	noteID, _ := strconv.Atoi(bone.GetValue(r, "id"))
+	noteRequest.Data.ID = noteID
+	db := ctx.Value(ctxKeyDB).(*DB)
+	err = updateNote(db, noteRequest.Data)
+	if err != nil {
+		log.Printf("getNoteHandler: %s", err)
+		w.Header().Set("Content-type", "application/json")
+		w.WriteHeader(http.StatusInternalServerError)
+		res := MessageResponse{Data: StatusMessage{Message: "error"}}
+		json.NewEncoder(w).Encode(res)
+		return
+	}
 	w.Header().Set("Content-type", "application/json")
-	json.NewEncoder(w).Encode("updateNote")
+	res := MessageResponse{Data: StatusMessage{Message: "updated"}}
+	json.NewEncoder(w).Encode(res)
+	return
 }

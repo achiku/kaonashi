@@ -3,6 +3,7 @@ package main
 import (
 	"database/sql"
 	"log"
+	"time"
 )
 
 func getNote(db *DB, noteID string) (Note, error) {
@@ -65,6 +66,22 @@ func deleteNote(db *DB, noteID string) error {
 	`, noteID)
 	if err != nil {
 		log.Printf("deleteNote: %s", err)
+		return err
+	}
+	return nil
+}
+
+func updateNote(db *DB, note Note) error {
+	_, err := db.Exec(`
+	UPDATE note 
+	SET
+	  title = ?
+	  ,body = ?
+	  ,updated = ?
+	WHERE id = ?
+	`, note.Title, note.Body, time.Now().String(), note.ID)
+	if err != nil {
+		log.Printf("updateNote: %s", err)
 		return err
 	}
 	return nil
