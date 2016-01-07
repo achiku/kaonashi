@@ -8,10 +8,12 @@ import (
 	_ "github.com/mattn/go-sqlite3"
 )
 
+// DB struct
 type DB struct {
 	*sql.DB
 }
 
+// NewDB Create new DB
 func NewDB(config *AppConfig) (*DB, error) {
 	dbPath := config.DatabasePath
 	db, err := sql.Open("sqlite3", dbPath)

@@ -8,12 +8,14 @@ import (
 	"github.com/naoina/toml"
 )
 
+// AppConfig struct
 type AppConfig struct {
 	Debug        bool
 	Testing      bool
 	DatabasePath string
 }
 
+// NewAppConfig creates new config
 func NewAppConfig(configFilePath string) (*AppConfig, error) {
 	f, err := os.Open(configFilePath)
 	if err != nil {
