@@ -16,7 +16,7 @@ const (
 
 func main() {
 	// set up root context
-	appConfig, err := NewAppConfig("./configs/development.toml")
+	appConfig, err := NewAppConfig("./config_devel.toml")
 	if err != nil {
 		log.Fatalf("failed to load config: %s", err)
 	}
@@ -36,11 +36,11 @@ func main() {
 
 	// application routing
 	mux := bone.New()
-	mux.Get("/note", c.HandlerCtx(rootCtx, xhandler.HandlerFuncC(getNoteTitles)))
-	mux.Get("/note/:id", c.HandlerCtx(rootCtx, xhandler.HandlerFuncC(getNote)))
-	mux.Delete("/note/:id", c.HandlerCtx(rootCtx, xhandler.HandlerFuncC(deleteNote)))
-	mux.Put("/note/:id", c.HandlerCtx(rootCtx, xhandler.HandlerFuncC(updateNote)))
-	mux.Post("/note", c.HandlerCtx(rootCtx, xhandler.HandlerFuncC(createNote)))
+	mux.Get("/note", c.HandlerCtx(rootCtx, xhandler.HandlerFuncC(getNoteTitlesHandler)))
+	mux.Get("/note/:id", c.HandlerCtx(rootCtx, xhandler.HandlerFuncC(getNoteHandler)))
+	mux.Delete("/note/:id", c.HandlerCtx(rootCtx, xhandler.HandlerFuncC(deleteNoteHandler)))
+	mux.Put("/note/:id", c.HandlerCtx(rootCtx, xhandler.HandlerFuncC(updateNoteHandler)))
+	mux.Post("/note", c.HandlerCtx(rootCtx, xhandler.HandlerFuncC(createNoteHandler)))
 	if err := http.ListenAndServe(":8080", mux); err != nil {
 		log.Fatal(err)
 	}
