@@ -13,6 +13,13 @@ Headless note server with just-enough set of RESTful APIs
 I wanted a simple note app for programmers who can create whatever the UI they want.
 
 
+## Instalation
+
+```
+go get -u github.com/achiku/kaonashi/...
+```
+
+
 ## What it can do
 
 - POST a note
