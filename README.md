@@ -1,5 +1,7 @@
 # kaonashi
 
+[![Build Status](https://travis-ci.org/achiku/kaonashi.svg?branch=master)](https://travis-ci.org/achiku/kaonashi)
+
 
 ## Description
 
