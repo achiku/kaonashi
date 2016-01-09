@@ -36,3 +36,15 @@ func NewAppConfig(configFilePath string) (*AppConfig, error) {
 	}
 	return &config, nil
 }
+
+// NewDefaultConfig create new default config
+func NewDefaultConfig() *AppConfig {
+	var config *AppConfig
+	config = &AppConfig{
+		Debug:        true,
+		Testing:      true,
+		ServerPort:   "8080",
+		DatabasePath: "kaonashi.db",
+	}
+	return config
+}

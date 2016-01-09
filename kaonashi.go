@@ -1,8 +1,14 @@
 package main
 
 import (
+	"bytes"
+	"flag"
+	"fmt"
+	"io/ioutil"
 	"log"
 	"net/http"
+	"os"
+	"os/exec"
 
 	"github.com/go-zoo/bone"
 	"github.com/rs/xhandler"
@@ -14,16 +20,23 @@ const (
 	ctxKeyDB     = "db"
 )
 
-func main() {
-	// set up root context
-	appConfig, err := NewAppConfig("./conf/config_devel.toml")
-	if err != nil {
-		log.Fatalf("failed to load config: %s", err)
+func run(confPath string) {
+	var appConfig *AppConfig
+	var err error
+	if confPath != "" {
+		appConfig, err = NewAppConfig(confPath)
+		if err != nil {
+			log.Fatalf("failed to load config: %s", err)
+		}
+	} else {
+		appConfig = NewDefaultConfig()
 	}
 	db, err := NewDB(appConfig)
 	if err != nil {
 		log.Fatalf("failed to open database: %s", err)
 	}
+
+	// set up root context
 	rootCtx := context.Background()
 	rootCtx = context.WithValue(rootCtx, ctxKeyConfig, appConfig)
 	rootCtx = context.WithValue(rootCtx, ctxKeyDB, db)
@@ -44,4 +57,33 @@ func main() {
 	if err := http.ListenAndServe(":"+appConfig.ServerPort, mux); err != nil {
 		log.Fatal(err)
 	}
+}
+
+func main() {
+	confPath := flag.String("c", "", "configuration file path for kaonashi")
+	d := flag.Bool("d", false, "whether or not to launch in the background(like a daemon)")
+	flag.Parse()
+	if *d {
+		cmd := exec.Command(os.Args[0],
+			"-c", *confPath,
+		)
+		serr, err := cmd.StderrPipe()
+		if err != nil {
+			log.Fatalln(err)
+		}
+		err = cmd.Start()
+		if err != nil {
+			log.Fatalln(err)
+		}
+		s, err := ioutil.ReadAll(serr)
+		s = bytes.TrimSpace(s)
+		if bytes.HasPrefix(s, []byte("addr: ")) {
+			fmt.Println(string(s))
+			cmd.Process.Release()
+		} else {
+			log.Printf("unexpected response from kaonashi: `%s` error: `%v`\n", s, err)
+			cmd.Process.Kill()
+		}
+	}
+	run(*confPath)
 }
