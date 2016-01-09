@@ -10,10 +10,11 @@ Headless local note app with just-enough set of RESTful APIs
 
 ## Why created
 
-- There are variety of note apps out there, but the fundamental functionality is not so different among them. And Evernote sucks.
+- There are variety of note apps out there, but the fundamental functionality is not so different among them.
+- And Evernote sucks.
 - It's getting easier and easier to create UI for multiple devices.
 - Programmers and desingers are kind of people who can create whatever suitable for their own use. 
-- It might be interesting to have solid note backend with simple RESTful APIs, and let people to create what is valuable for their use case.
+- It might be interesting to have solid note backend service with simple RESTful APIs, and help people to create what is valuable for their own use case.
 
 
 ## Instalation
