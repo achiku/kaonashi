@@ -3,7 +3,7 @@ package main
 import "testing"
 
 func TestConfig(t *testing.T) {
-	testConfigFilePath := "config_test.toml"
+	testConfigFilePath := "./conf/config_test.toml"
 	config, err := NewAppConfig(testConfigFilePath)
 	if err != nil {
 		t.Fatalf("failed to create config: %s", err)
