@@ -1,8 +1,0 @@
-CREATE TABLE note (
-  id INTEGER PRIMARY KEY AUTOINCREMENT
-  ,title TEXT
-  ,body TEXT
-  ,created TEXT NOT NULL
-  ,updated TEXT NOT NULL
-)
-;

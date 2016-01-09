@@ -1,14 +1,8 @@
-package main
+package kaonashi
 
 import (
-	"bytes"
-	"flag"
-	"fmt"
-	"io/ioutil"
 	"log"
 	"net/http"
-	"os"
-	"os/exec"
 
 	"github.com/go-zoo/bone"
 	"github.com/rs/xhandler"
@@ -20,7 +14,31 @@ const (
 	ctxKeyDB     = "db"
 )
 
-func run(confPath string) {
+// Init create tables
+func Init(confPath string) {
+	var appConfig *AppConfig
+	var err error
+	if confPath != "" {
+		appConfig, err = NewAppConfig(confPath)
+		if err != nil {
+			log.Fatalf("failed to load config: %s", err)
+		}
+	} else {
+		appConfig = NewDefaultConfig()
+	}
+	db, err := NewDB(appConfig)
+	if err != nil {
+		log.Fatalf("failed to open database: %s", err)
+	}
+
+	err = createTables(db)
+	if err != nil {
+		log.Fatalf("failed to create table: %s", err)
+	}
+}
+
+// Run kaonashi
+func Run(confPath string) {
 	var appConfig *AppConfig
 	var err error
 	if confPath != "" {
@@ -57,33 +75,4 @@ func run(confPath string) {
 	if err := http.ListenAndServe(":"+appConfig.ServerPort, mux); err != nil {
 		log.Fatal(err)
 	}
-}
-
-func main() {
-	confPath := flag.String("c", "", "configuration file path for kaonashi")
-	d := flag.Bool("d", false, "whether or not to launch in the background(like a daemon)")
-	flag.Parse()
-	if *d {
-		cmd := exec.Command(os.Args[0],
-			"-c", *confPath,
-		)
-		serr, err := cmd.StderrPipe()
-		if err != nil {
-			log.Fatalln(err)
-		}
-		err = cmd.Start()
-		if err != nil {
-			log.Fatalln(err)
-		}
-		s, err := ioutil.ReadAll(serr)
-		s = bytes.TrimSpace(s)
-		if bytes.HasPrefix(s, []byte("addr: ")) {
-			fmt.Println(string(s))
-			cmd.Process.Release()
-		} else {
-			log.Printf("unexpected response from kaonashi: `%s` error: `%v`\n", s, err)
-			cmd.Process.Kill()
-		}
-	}
-	run(*confPath)
 }

@@ -1,4 +1,4 @@
-package main
+package kaonashi
 
 import (
 	"database/sql"
@@ -82,6 +82,23 @@ func updateNote(db *DB, note Note) error {
 	`, note.Title, note.Body, time.Now().String(), note.ID)
 	if err != nil {
 		log.Printf("updateNote: %s", err)
+		return err
+	}
+	return nil
+}
+
+func createTables(db *DB) error {
+	_, err := db.Exec(`
+	CREATE TABLE note (
+	  id INTEGER PRIMARY KEY AUTOINCREMENT
+	  ,title TEXT
+	  ,body TEXT
+	  ,created TEXT NOT NULL
+	  ,updated TEXT NOT NULL
+	)
+	`)
+	if err != nil {
+		log.Printf("createTables: %s", err)
 		return err
 	}
 	return nil

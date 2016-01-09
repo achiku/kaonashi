@@ -1,10 +1,10 @@
-package main
+package kaonashi
 
 import (
 	"log"
 
 	"github.com/jmoiron/sqlx"
-	_ "github.com/mattn/go-sqlite3"
+	_ "github.com/mattn/go-sqlite3" // sqlit3
 )
 
 // DB struct

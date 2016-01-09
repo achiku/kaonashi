@@ -1,4 +1,4 @@
-package main
+package kaonashi
 
 import "github.com/guregu/null"
 
