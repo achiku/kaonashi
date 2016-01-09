@@ -16,7 +16,15 @@ I wanted a simple note app for programmers who can create whatever the UI they w
 ## Instalation
 
 ```
-go get -u github.com/achiku/kaonashi/...
+go get -u github.com/achiku/kaonashi/cmd/kaonashi
+```
+
+
+## Start service
+
+```
+$ kaonashi -init
+$ kaonashi -d &
 ```
 
 
