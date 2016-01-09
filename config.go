@@ -13,6 +13,7 @@ type AppConfig struct {
 	Debug        bool
 	Testing      bool
 	DatabasePath string
+	ServerPort   string
 }
 
 // NewAppConfig creates new config
