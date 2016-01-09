@@ -6,4 +6,5 @@ go:
 
 script:
     - make gom
+    - make bundle
     - make check
