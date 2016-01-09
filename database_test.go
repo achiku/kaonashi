@@ -3,7 +3,7 @@ package main
 import "testing"
 
 func TestDatabasePing(t *testing.T) {
-	testConfigFilePath := "./configs/test.toml"
+	testConfigFilePath := "config_test.toml"
 	config, err := NewAppConfig(testConfigFilePath)
 	if err != nil {
 		t.Fatalf("failed to create config: %s", err)
