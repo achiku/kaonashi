@@ -1,6 +1,7 @@
 package main
 
 import (
+	"encoding/json"
 	"log"
 	"net/http"
 	"time"
@@ -20,8 +21,11 @@ func recoverMiddleware(next http.Handler) http.Handler {
 	fn := func(w http.ResponseWriter, r *http.Request) {
 		defer func() {
 			if err := recover(); err != nil {
-				log.Println("panic: %+v", err)
-				http.Error(w, http.StatusText(500), 500)
+				log.Printf("panic: %s\n", err)
+				w.Header().Set("Content-type", "application/json")
+				w.WriteHeader(http.StatusInternalServerError)
+				res := MessageResponse{Data: StatusMessage{Message: "internal server error"}}
+				json.NewEncoder(w).Encode(res)
 			}
 		}()
 		next.ServeHTTP(w, r)
