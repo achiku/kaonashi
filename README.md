@@ -11,10 +11,12 @@ Headless local note app with just-enough set of RESTful APIs
 ## Why created
 
 - There are variety of note apps out there, but the fundamental functionality is not so different among them.
-- And Evernote sucks.
-- It's getting easier and easier to create UI for multiple devices.
-- Programmers and desingers are kind of people who can create whatever suitable for their own use. 
-- It might be interesting to have solid note backend service with simple RESTful APIs, and help people to create what is valuable for their own use case.
+- Programmers and desingers are kind of people who are good at creating whatever tools/UIs suitable for their own use case. 
+- This go gettable binary get your back, and you can create and keep polishing valuable note UIs for your own use case on top of RESTful APIs that should be enough for usual note app.
+
+## Example UIs
+
+- https://github.com/achiku/vim-kaonashi
 
 
 ## Instalation
@@ -23,16 +25,22 @@ Headless local note app with just-enough set of RESTful APIs
 go get -u github.com/achiku/kaonashi/cmd/kaonashi
 ```
 
+## Create database
+
+```
+$ kaonashi -init
+```
 
 ## Start service
 
 ```
-$ kaonashi -init
-$ kaonashi -d &
+$ nohup kaonashi -d &
 ```
 
 
 ## What it can do
+
+Interacting with kaonashi using [httpie](https://github.com/jkbrzt/httpie).
 
 #### POST a note
 
