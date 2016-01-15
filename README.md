@@ -11,9 +11,8 @@ Headless local note app with just-enough set of RESTful APIs
 
 ## Why created
 
-- There are variety of note apps out there, but the fundamental functionality is not so different among them.
-- Programmers and desingers are kind of people who are good at creating whatever tools/UIs suitable for their own use case. 
-- This go gettable binary get your back, and you can create and keep polishing valuable note UIs for your own use case on top of RESTful APIs that should be enough for usual note app.
+There are variety of note apps out there, but the fundamental functionality is not so different among them. Programmers and desingers are kind of people who are good at creating whatever tools/UIs suitable for their own use case. This go gettable binary get your back, and you can create and keep polishing valuable note UIs for your own use case on top of RESTful APIs that should be enough for usual note app.
+
 
 ## Example UIs
 
