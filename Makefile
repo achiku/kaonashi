@@ -13,7 +13,7 @@ fmt:
 	go fmt ./...
 
 check:
-	gom test
+	gom test ./kaonashi
 
 clean:
 	rm -rf bin/*
