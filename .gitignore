@@ -27,3 +27,4 @@ tmp
 vendor
 
 *.db
+bin

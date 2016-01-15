@@ -22,7 +22,7 @@ There are variety of note apps out there, but the fundamental functionality is n
 ## Instalation
 
 ```
-go get -u github.com/achiku/kaonashi/cmd/kaonashi
+go get -u github.com/achiku/kaonashi
 ```
 
 ## Create database

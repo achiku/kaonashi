@@ -1,6 +1,7 @@
 package kaonashi
 
 import (
+	"fmt"
 	"log"
 	"net/http"
 
@@ -72,8 +73,8 @@ func Run(confPath string) {
 	mux.Delete("/note/:id", c.HandlerCtx(rootCtx, xhandler.HandlerFuncC(deleteNoteHandler)))
 	mux.Put("/note/:id", c.HandlerCtx(rootCtx, xhandler.HandlerFuncC(updateNoteHandler)))
 	mux.Post("/note", c.HandlerCtx(rootCtx, xhandler.HandlerFuncC(createNoteHandler)))
+	fmt.Printf("starting kaonashi using port: %s", appConfig.ServerPort)
 	if err := http.ListenAndServe(":"+appConfig.ServerPort, mux); err != nil {
 		log.Fatal(err)
 	}
-	log.Println("starting kaonashi")
 }

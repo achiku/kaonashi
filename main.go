@@ -9,7 +9,7 @@ import (
 	"os"
 	"os/exec"
 
-	"github.com/achiku/kaonashi"
+	"github.com/achiku/kaonashi/kaonashi"
 )
 
 func main() {
@@ -23,6 +23,7 @@ func main() {
 		os.Exit(0)
 	}
 	if *deamonFlag {
+		log.Println("starting deamon")
 		cmd := exec.Command(os.Args[0],
 			"-c", *confPath,
 		)
@@ -36,7 +37,7 @@ func main() {
 		}
 		s, err := ioutil.ReadAll(serr)
 		s = bytes.TrimSpace(s)
-		if bytes.HasPrefix(s, []byte("addr: ")) {
+		if bytes.HasPrefix(s, []byte("starting kaonashi")) {
 			fmt.Println(string(s))
 			cmd.Process.Release()
 		} else {

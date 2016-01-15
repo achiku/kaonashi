@@ -1,5 +1,8 @@
 VERSION=0.0.1
 
+build:
+	go build -o bin/kaonashi
+
 gom:
 	go get -u github.com/mattn/gom
 
