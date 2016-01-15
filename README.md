@@ -40,17 +40,19 @@ $ nohup kaonashi -d &
 
 ## What it can do
 
-Interacting with kaonashi using [httpie](https://github.com/jkbrzt/httpie).
+Interacting with kaonashi using curl.
 
 #### POST a note
 
 ```
-http POST http://localhost:8080/note data:='{"title": "title01", "body": "hello, kaonashi!"}'
-HTTP/1.1 200 OK
-Content-Length: 31
-Content-Type: application/json
-Date: Sat, 09 Jan 2016 13:46:17 GMT
+curl -v -H "Accept: application/json" \
+    -H "Content-type: application/json" \
+    -X POST \
+    -d '{"data":{"title":"my first note","body":"note body"}}' \
+    http://localhost:8080/note
+```
 
+```json
 {
     "data": {
         "message": "created"
@@ -61,12 +63,14 @@ Date: Sat, 09 Jan 2016 13:46:17 GMT
 #### PUT a note
 
 ```
-http PUT http://localhost:8080/note/1 data:='{"title": "title01", "body": "hello, kaonashi! This is achiku."}'
-HTTP/1.1 200 OK
-Content-Length: 31
-Content-Type: application/json
-Date: Sat, 09 Jan 2016 13:48:23 GMT
+curl -v -H "Accept: application/json" \
+    -H "Content-type: application/json" \
+    -X PUT \
+    -d '{"data":{"title":"my first note","body":"note body updated"}}' \
+    http://localhost:8080/note/1
+```
 
+```
 {
     "data": {
         "message": "updated"
@@ -78,12 +82,13 @@ Date: Sat, 09 Jan 2016 13:48:23 GMT
 #### DELETE a note
 
 ```
-http DELETE http://localhost:8080/note/8
-HTTP/1.1 200 OK
-Content-Length: 31
-Content-Type: application/json
-Date: Sat, 09 Jan 2016 13:49:10 GMT
+curl -v -H "Accept: application/json" \
+    -H "Content-type: application/json" \
+    -X DELETE \
+    http://localhost:8080/note/1
+```
 
+```
 {
     "data": {
         "message": "deleted"
@@ -95,12 +100,13 @@ Date: Sat, 09 Jan 2016 13:49:10 GMT
 #### GET note titles
 
 ```
-http GET http://localhost:8080/note
-HTTP/1.1 200 OK
-Content-Length: 272
-Content-Type: application/json
-Date: Sat, 09 Jan 2016 13:51:12 GMT
+curl -v -H "Accept: application/json" \
+    -H "Content-type: application/json" \
+    -X GET \
+    http://localhost:8080/note
+```
 
+```
 {
     "data": [
         {
@@ -122,12 +128,13 @@ Date: Sat, 09 Jan 2016 13:51:12 GMT
 #### GET a note
 
 ```
-http GET http://localhost:8080/note/2
-HTTP/1.1 200 OK
-Content-Length: 166
-Content-Type: application/json
-Date: Sat, 09 Jan 2016 13:51:53 GMT
+curl -v -H "Accept: application/json" \
+    -H "Content-type: application/json" \
+    -X GET \
+    http://localhost:8080/note/2
+```
 
+```
 {
     "data": {
         "body": "hello, kaonashi!",
