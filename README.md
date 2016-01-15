@@ -1,8 +1,5 @@
 # kaonashi [![Build Status](https://travis-ci.org/achiku/kaonashi.svg?branch=master)](https://travis-ci.org/achiku/kaonashi) [![MIT License](http://img.shields.io/badge/license-MIT-blue.svg?style=flat-square)](https://travis-ci.org/achiku/kaonashi/LICENSE)
 
-
-## Description
-
 Headless local note app with just-enough set of RESTful APIs
 
 
