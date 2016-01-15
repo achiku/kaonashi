@@ -75,4 +75,5 @@ func Run(confPath string) {
 	if err := http.ListenAndServe(":"+appConfig.ServerPort, mux); err != nil {
 		log.Fatal(err)
 	}
+	log.Println("starting kaonashi")
 }
