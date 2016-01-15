@@ -70,7 +70,7 @@ curl -v -H "Accept: application/json" \
     http://localhost:8080/note/1
 ```
 
-```
+```json
 {
     "data": {
         "message": "updated"
@@ -88,7 +88,7 @@ curl -v -H "Accept: application/json" \
     http://localhost:8080/note/1
 ```
 
-```
+```json
 {
     "data": {
         "message": "deleted"
@@ -106,7 +106,7 @@ curl -v -H "Accept: application/json" \
     http://localhost:8080/note
 ```
 
-```
+```json
 {
     "data": [
         {
@@ -134,7 +134,7 @@ curl -v -H "Accept: application/json" \
     http://localhost:8080/note/2
 ```
 
-```
+```json
 {
     "data": {
         "body": "hello, kaonashi!",
