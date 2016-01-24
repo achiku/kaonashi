@@ -29,7 +29,7 @@ $ kaonashi -init
 ## Start service
 
 ```
-$ nohup kaonashi -d &
+$ kaonashi -d &
 ```
 
 
