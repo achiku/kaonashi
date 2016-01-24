@@ -31,10 +31,10 @@ func getNote(db *DB, noteID string) (Note, error) {
 }
 
 func createNote(db *DB, note Note) error {
-	_, err := db.Exec(`
+	_, err := db.NamedExec(`
 	INSERT INTO note (title, body, created, updated)
-	VALUES (?, ?, ?, ?)
-	`, note.Title, note.Body, note.Created, note.Updated)
+	VALUES (:title, :body, :created, :updated)
+	`, note)
 	if err != nil {
 		log.Printf("createNote: %s", err)
 		return err
