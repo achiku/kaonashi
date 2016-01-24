@@ -11,6 +11,7 @@ There are variety of note apps out there, but the fundamental functionality is n
 ## Example UIs
 
 - https://github.com/achiku/vim-kaonashi
+- https://github.com/ideyuta/kao
 
 
 ## Instalation
