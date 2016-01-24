@@ -15,50 +15,54 @@ const (
 	ctxKeyDB     = "db"
 )
 
-// Init create tables
-func Init(confPath string) {
-	var appConfig *AppConfig
-	var err error
+// Kaonashi struct
+type Kaonashi struct {
+	config *AppConfig
+	db     *DB
+}
+
+// NewKaonashi create tables
+func NewKaonashi(confPath string) (*Kaonashi, error) {
+	var (
+		k         *Kaonashi
+		appConfig *AppConfig
+		err       error
+	)
 	if confPath != "" {
 		appConfig, err = NewAppConfig(confPath)
 		if err != nil {
 			log.Fatalf("failed to load config: %s", err)
+			return k, err
 		}
 	} else {
-		appConfig = NewDefaultConfig()
+		appConfig = NewAppDefaultConfig()
 	}
 	db, err := NewDB(appConfig)
 	if err != nil {
 		log.Fatalf("failed to open database: %s", err)
+		return k, err
 	}
+	k = &Kaonashi{
+		config: appConfig,
+		db:     db,
+	}
+	return k, nil
+}
 
-	err = createTables(db)
+// InitDB create tables
+func (k *Kaonashi) InitDB() {
+	err := createTables(k.db)
 	if err != nil {
 		log.Fatalf("failed to create table: %s", err)
 	}
 }
 
 // Run kaonashi
-func Run(confPath string) {
-	var appConfig *AppConfig
-	var err error
-	if confPath != "" {
-		appConfig, err = NewAppConfig(confPath)
-		if err != nil {
-			log.Fatalf("failed to load config: %s", err)
-		}
-	} else {
-		appConfig = NewDefaultConfig()
-	}
-	db, err := NewDB(appConfig)
-	if err != nil {
-		log.Fatalf("failed to open database: %s", err)
-	}
-
+func (k *Kaonashi) Run() {
 	// set up root context
 	rootCtx := context.Background()
-	rootCtx = context.WithValue(rootCtx, ctxKeyConfig, appConfig)
-	rootCtx = context.WithValue(rootCtx, ctxKeyDB, db)
+	rootCtx = context.WithValue(rootCtx, ctxKeyConfig, k.config)
+	rootCtx = context.WithValue(rootCtx, ctxKeyDB, k.db)
 
 	// middleware chaining
 	c := xhandler.Chain{}
@@ -73,8 +77,8 @@ func Run(confPath string) {
 	mux.Delete("/note/:id", c.HandlerCtx(rootCtx, xhandler.HandlerFuncC(deleteNoteHandler)))
 	mux.Put("/note/:id", c.HandlerCtx(rootCtx, xhandler.HandlerFuncC(updateNoteHandler)))
 	mux.Post("/note", c.HandlerCtx(rootCtx, xhandler.HandlerFuncC(createNoteHandler)))
-	fmt.Printf("starting kaonashi using port: %s", appConfig.ServerPort)
-	if err := http.ListenAndServe(":"+appConfig.ServerPort, mux); err != nil {
+	fmt.Printf("starting kaonashi using port: %s\n", k.config.ServerPort)
+	if err := http.ListenAndServe(":"+k.config.ServerPort, mux); err != nil {
 		log.Fatal(err)
 	}
 }

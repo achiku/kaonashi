@@ -18,8 +18,13 @@ func main() {
 	initDatabase := flag.Bool("init", false, "initialize database schemas")
 	flag.Parse()
 
+	k, err := kaonashi.NewKaonashi(*confPath)
+	if err != nil {
+		log.Fatalf("failed to initialize kaonashi: %s", err)
+		os.Exit(1)
+	}
 	if *initDatabase {
-		kaonashi.Init(*confPath)
+		k.InitDB()
 		os.Exit(0)
 	}
 	if *deamonFlag {
@@ -45,5 +50,5 @@ func main() {
 			cmd.Process.Kill()
 		}
 	}
-	kaonashi.Run(*confPath)
+	k.Run()
 }

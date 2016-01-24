@@ -37,8 +37,8 @@ func NewAppConfig(configFilePath string) (*AppConfig, error) {
 	return &config, nil
 }
 
-// NewDefaultConfig create new default config
-func NewDefaultConfig() *AppConfig {
+// NewAppDefaultConfig create new default config
+func NewAppDefaultConfig() *AppConfig {
 	var config *AppConfig
 	config = &AppConfig{
 		Debug:        true,
