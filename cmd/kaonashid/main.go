@@ -9,7 +9,7 @@ import (
 	"os"
 	"os/exec"
 
-	"github.com/achiku/kaonashi/kaonashi"
+	"github.com/achiku/kaonashi"
 )
 
 func main() {

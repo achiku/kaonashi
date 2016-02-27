@@ -1,4 +1,4 @@
 debug = true
 testing = true
-database_path = 'kaonashi.db'
+database_path = '../../bin/kaonashi.db'
 server_port = '8080'

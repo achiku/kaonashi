@@ -17,7 +17,7 @@ There are wide range of note apps out there, but the fundamental functionality i
 ## Instalation
 
 ```
-go get -u github.com/achiku/kaonashi
+go get -u github.com/achiku/kaonashi/cmd/kaonashid
 ```
 
 ## Create database
