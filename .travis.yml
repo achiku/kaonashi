@@ -6,6 +6,7 @@ go:
     - tip
 
 script:
-    - make gom
-    - make bundle
-    - make check
+    - go get -u github.com/mattn/gom 
+    - gom install
+    - go fmt ./...
+    - go test -v
