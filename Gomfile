@@ -1,4 +1,4 @@
-gom 'github.com/go-zoo/bone'
+gom 'github.com/rs/xmux'
 gom 'github.com/rs/xhandler'
 gom 'github.com/naoina/toml'
 gom 'golang.org/x/net/context'

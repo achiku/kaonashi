@@ -5,8 +5,8 @@ import (
 	"log"
 	"net/http"
 
-	"github.com/go-zoo/bone"
 	"github.com/rs/xhandler"
+	"github.com/rs/xmux"
 	"golang.org/x/net/context"
 )
 
@@ -71,14 +71,15 @@ func (k *Kaonashi) Run() {
 	c.UseC(xhandler.CloseHandler)
 
 	// application routing
-	mux := bone.New()
-	mux.Get("/note", c.HandlerCtx(rootCtx, xhandler.HandlerFuncC(getNoteTitlesHandler)))
-	mux.Get("/note/:id", c.HandlerCtx(rootCtx, xhandler.HandlerFuncC(getNoteHandler)))
-	mux.Delete("/note/:id", c.HandlerCtx(rootCtx, xhandler.HandlerFuncC(deleteNoteHandler)))
-	mux.Put("/note/:id", c.HandlerCtx(rootCtx, xhandler.HandlerFuncC(updateNoteHandler)))
-	mux.Post("/note", c.HandlerCtx(rootCtx, xhandler.HandlerFuncC(createNoteHandler)))
+	mux := xmux.New()
+	mux.GET("/note", xhandler.HandlerFuncC(getNoteTitlesHandler))
+	mux.GET("/note/:id", xhandler.HandlerFuncC(getNoteHandler))
+	mux.DELETE("/note/:id", xhandler.HandlerFuncC(deleteNoteHandler))
+	mux.PUT("/note/:id", xhandler.HandlerFuncC(updateNoteHandler))
+	mux.POST("/note", xhandler.HandlerFuncC(createNoteHandler))
+
 	fmt.Printf("starting kaonashi using port: %s\n", k.config.ServerPort)
-	if err := http.ListenAndServe(":"+k.config.ServerPort, mux); err != nil {
+	if err := http.ListenAndServe(":"+k.config.ServerPort, c.HandlerCtx(rootCtx, mux)); err != nil {
 		log.Fatal(err)
 	}
 }

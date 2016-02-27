@@ -8,13 +8,13 @@ import (
 	"strconv"
 	"time"
 
-	"github.com/go-zoo/bone"
+	"github.com/rs/xmux"
 
 	"golang.org/x/net/context"
 )
 
 func getNoteHandler(ctx context.Context, w http.ResponseWriter, r *http.Request) {
-	noteID := bone.GetValue(r, "id")
+	noteID := xmux.Param(ctx, "id")
 	db := ctx.Value(ctxKeyDB).(*DB)
 	note, err := getNote(db, noteID)
 	if err != nil {
@@ -92,7 +92,7 @@ func createNoteHandler(ctx context.Context, w http.ResponseWriter, r *http.Reque
 }
 
 func deleteNoteHandler(ctx context.Context, w http.ResponseWriter, r *http.Request) {
-	noteID := bone.GetValue(r, "id")
+	noteID := xmux.Param(ctx, "id")
 	db := ctx.Value(ctxKeyDB).(*DB)
 	err := deleteNote(db, noteID)
 	if err != nil {
@@ -122,7 +122,7 @@ func updateNoteHandler(ctx context.Context, w http.ResponseWriter, r *http.Reque
 		return
 	}
 
-	noteID, _ := strconv.Atoi(bone.GetValue(r, "id"))
+	noteID, _ := strconv.Atoi(xmux.Param(ctx, "id"))
 	noteRequest.Data.ID = noteID
 	db := ctx.Value(ctxKeyDB).(*DB)
 	err = updateNote(db, noteRequest.Data)
