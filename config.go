@@ -1,36 +1,23 @@
 package kaonashi
 
 import (
-	"io/ioutil"
 	"log"
-	"os"
 
-	"github.com/naoina/toml"
+	"github.com/BurntSushi/toml"
 )
 
 // AppConfig struct
 type AppConfig struct {
-	Debug        bool
-	Testing      bool
-	DatabasePath string
-	ServerPort   string
+	Debug        bool   `toml:"debug"`
+	Testing      bool   `toml:"testing"`
+	DatabasePath string `toml:"database_path"`
+	ServerPort   string `toml:"server_port"`
 }
 
 // NewAppConfig creates new config
 func NewAppConfig(configFilePath string) (*AppConfig, error) {
-	f, err := os.Open(configFilePath)
-	if err != nil {
-		log.Fatalf("failed to open config file: %s: %s", configFilePath, err)
-		return nil, err
-	}
-	defer f.Close()
-	buf, err := ioutil.ReadAll(f)
-	if err != nil {
-		log.Fatalf("failed to read config file: %s", err)
-		return nil, err
-	}
 	var config AppConfig
-	if err := toml.Unmarshal(buf, &config); err != nil {
+	if _, err := toml.DecodeFile(configFilePath, &config); err != nil {
 		log.Fatalf("failed to create AppConfig from file: %s", err)
 		return nil, err
 	}

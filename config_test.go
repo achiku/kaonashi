@@ -8,7 +8,8 @@ func TestConfig(t *testing.T) {
 	if err != nil {
 		t.Fatalf("failed to create config: %s", err)
 	}
+	t.Logf("%#v", config)
 	if config.DatabasePath != ":memory:" {
-		t.Fatalf("expected pgtest, but got %s", config.DatabasePath)
+		t.Errorf("expected :memory:, but got %s", config.DatabasePath)
 	}
 }
