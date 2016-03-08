@@ -1,4 +1,4 @@
 debug = true
 testing = true
 database_path = ':memory:'
-server_port = '8080'
+server_port = '8588'
