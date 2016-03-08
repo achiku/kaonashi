@@ -1,0 +1,14 @@
+root_path = "."
+
+watch_target_dirs = ["../../"]
+watch_exclude_dirs = [".git", "vendor", "bin"]
+watch_file_ext = [".go"]
+
+build_target_dir = "../../bin"
+build_target_name = "kaonashi"
+build_command = "go"
+build_options = ["build", "-v"]
+
+start_options = ["-c", "../../conf/config_devel.toml"]
+
+restart_process = true
