@@ -17,7 +17,7 @@ There are wide range of note apps out there, but the fundamental functionality i
 ## Instalation
 
 ```
-go get -u github.com/achiku/kaonashi/cmd/kaonashid
+go get -u github.com/achiku/kaonashi/cmd/kaonashi
 ```
 
 ## Create database
@@ -140,4 +140,33 @@ curl -v -H "Accept: application/json" \
     }
 }
 
+```
+
+## Contribute
+
+Pull requests for new features, bug fixes, and suggestions are welcome!
+
+### Install gom
+
+This project is using [gom](https://github.com/mattn/gom) for dependency management.
+
+```
+$ go get -u github.com/mattn/gom
+$ gom install
+```
+
+### Test
+
+```
+$ go test -v
+```
+
+
+### Write code and auto-reload
+
+Using [wbs](https://github.com/achiku/wbs), it will be really easy to code and reload.
+
+```
+$ cd cmd/kaonashi
+$ gom exec wbs -c wbs.toml
 ```
