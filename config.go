@@ -30,7 +30,7 @@ func NewAppDefaultConfig() *AppConfig {
 	config = &AppConfig{
 		Debug:        true,
 		Testing:      true,
-		ServerPort:   "8080",
+		ServerPort:   "8588",
 		DatabasePath: "kaonashi.db",
 	}
 	return config
